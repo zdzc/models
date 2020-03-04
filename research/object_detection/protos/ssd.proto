@@ -13,7 +13,7 @@ import "object_detection/protos/post_processing.proto";
 import "object_detection/protos/region_similarity_calculator.proto";
 
 // Configuration for Single Shot Detection (SSD) models.
-// Next id: 27
+// Next id: 29
 message Ssd {
   // Number of classes to predict.
   optional int32 num_classes = 1;
@@ -97,7 +97,7 @@ message Ssd {
   optional float implicit_example_weight = 23 [default = 1.0];
 
   optional bool return_raw_detections_during_predict = 26 [default = false];
-
+ 
   // Configuration proto for MaskHead.
   // Next id: 11
   message MaskHead {
@@ -143,6 +143,23 @@ message Ssd {
 
   // Configs for mask head.
   optional MaskHead mask_head_config = 25;
+  // use knowledge distillation or not 
+  optional bool use_kd = 27 [default = false];
+  
+  // teachernet config
+  message TeacherNet {
+    // teachernet pipeline config path 
+    required string pipeline_config_path = 1;
+    // teachernet checkpoint path 
+    required string checkpoint_path = 2;
+    // input size 
+    optional int32 input_size = 3;
+    // device id: if multiple devices are given, separate them by ','
+    optional string device_id = 4 [default = "0"];
+    // kd loss weight 
+    optional float kd_loss_weight = 5 [default = 10];
+  }
+  optional TeacherNet teachernet = 28;
 }
 
 message SsdFeatureExtractor {
@@ -192,9 +209,19 @@ message SsdFeatureExtractor {
   // happen outside the graph.
   optional bool replace_preprocessor_with_placeholder = 11 [default = false];
 
-  // The number of SSD layers.
-  optional int32 num_layers = 12 [default = 6];
+  // The number of SSD layers.	
+  optional int32 num_layers = 12 [default = 6];	
 
+  // mobilenet v3 feature extractor config 
+  // mobilenet v3 version
+  optional string network_version = 13 [default = "small"];
+  // min max feature level output
+  optional int32 min_feature_level = 14 [default = 3];
+  optional int32 max_feature_level = 15 [default = 7];
+  // output feature map depth 
+  optional int32 additional_layer_depth = 16 [default = 256];
+  // use anti-alias layer instead of normal pooling
+  optional bool use_antialias = 28 [default = false];
 }
 
 // Configuration for Feature Pyramid Networks.
@@ -223,4 +250,3 @@ message FeaturePyramidNetworks {
   optional int32 additional_layer_depth = 3 [default = 256];
 
 }
-
