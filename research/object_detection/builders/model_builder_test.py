@@ -74,20 +74,20 @@ SSD_RESNET_V1_PPN_FEAT_MAPS = {
 
 class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
 
-  def create_model(self, model_config):
-    """Builds a DetectionModel based on the model config.
+    def create_model(self, model_config):
+        """Builds a DetectionModel based on the model config.
 
-    Args:
-      model_config: A model.proto object containing the config for the desired
-        DetectionModel.
+        Args:
+          model_config: A model.proto object containing the config for the desired
+            DetectionModel.
 
-    Returns:
-      DetectionModel based on the config.
-    """
-    return model_builder.build(model_config, is_training=True)
+        Returns:
+          DetectionModel based on the config.
+        """
+        return model_builder.build(model_config, is_training=True)
 
-  def test_create_ssd_inception_v2_model_from_config(self):
-    model_text_proto = """
+    def test_create_ssd_inception_v2_model_from_config(self):
+        model_text_proto = """
       ssd {
         feature_extractor {
           type: 'ssd_inception_v2'
@@ -151,18 +151,16 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           }
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = self.create_model(model_proto)
-    self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
-    self.assertIsInstance(model._feature_extractor,
-                          SSDInceptionV2FeatureExtractor)
-    self.assertIsNone(model._expected_loss_weights_fn)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = self.create_model(model_proto)
+        self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
+        self.assertIsInstance(model._feature_extractor,
+                              SSDInceptionV2FeatureExtractor)
+        self.assertIsNone(model._expected_loss_weights_fn)
 
-
-
-  def test_create_ssd_inception_v3_model_from_config(self):
-    model_text_proto = """
+    def test_create_ssd_inception_v3_model_from_config(self):
+        model_text_proto = """
       ssd {
         feature_extractor {
           type: 'ssd_inception_v3'
@@ -226,15 +224,15 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           }
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = self.create_model(model_proto)
-    self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
-    self.assertIsInstance(model._feature_extractor,
-                          SSDInceptionV3FeatureExtractor)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = self.create_model(model_proto)
+        self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
+        self.assertIsInstance(model._feature_extractor,
+                              SSDInceptionV3FeatureExtractor)
 
-  def test_create_ssd_resnet_v1_fpn_model_from_config(self):
-    model_text_proto = """
+    def test_create_ssd_resnet_v1_fpn_model_from_config(self):
+        model_text_proto = """
       ssd {
         feature_extractor {
           type: 'ssd_resnet50_v1_fpn'
@@ -312,17 +310,17 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           localization_weight: 1.0
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
 
-    for extractor_type, extractor_class in SSD_RESNET_V1_FPN_FEAT_MAPS.items():
-      model_proto.ssd.feature_extractor.type = extractor_type
-      model = model_builder.build(model_proto, is_training=True)
-      self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
-      self.assertIsInstance(model._feature_extractor, extractor_class)
+        for extractor_type, extractor_class in SSD_RESNET_V1_FPN_FEAT_MAPS.items():
+            model_proto.ssd.feature_extractor.type = extractor_type
+            model = model_builder.build(model_proto, is_training=True)
+            self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
+            self.assertIsInstance(model._feature_extractor, extractor_class)
 
-  def test_create_ssd_resnet_v1_ppn_model_from_config(self):
-    model_text_proto = """
+    def test_create_ssd_resnet_v1_ppn_model_from_config(self):
+        model_text_proto = """
       ssd {
         feature_extractor {
           type: 'ssd_resnet_v1_50_ppn'
@@ -393,17 +391,17 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           localization_weight: 1.0
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
 
-    for extractor_type, extractor_class in SSD_RESNET_V1_PPN_FEAT_MAPS.items():
-      model_proto.ssd.feature_extractor.type = extractor_type
-      model = model_builder.build(model_proto, is_training=True)
-      self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
-      self.assertIsInstance(model._feature_extractor, extractor_class)
+        for extractor_type, extractor_class in SSD_RESNET_V1_PPN_FEAT_MAPS.items():
+            model_proto.ssd.feature_extractor.type = extractor_type
+            model = model_builder.build(model_proto, is_training=True)
+            self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
+            self.assertIsInstance(model._feature_extractor, extractor_class)
 
-  def test_create_ssd_mobilenet_v1_model_from_config(self):
-    model_text_proto = """
+    def test_create_ssd_mobilenet_v1_model_from_config(self):
+        model_text_proto = """
       ssd {
         freeze_batchnorm: true
         inplace_batchnorm_update: true
@@ -469,18 +467,18 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           }
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = self.create_model(model_proto)
-    self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
-    self.assertIsInstance(model._feature_extractor,
-                          SSDMobileNetV1FeatureExtractor)
-    self.assertTrue(model._normalize_loc_loss_by_codesize)
-    self.assertTrue(model._freeze_batchnorm)
-    self.assertTrue(model._inplace_batchnorm_update)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = self.create_model(model_proto)
+        self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
+        self.assertIsInstance(model._feature_extractor,
+                              SSDMobileNetV1FeatureExtractor)
+        self.assertTrue(model._normalize_loc_loss_by_codesize)
+        self.assertTrue(model._freeze_batchnorm)
+        self.assertTrue(model._inplace_batchnorm_update)
 
-  def test_create_ssd_mobilenet_v1_fpn_model_from_config(self):
-    model_text_proto = """
+    def test_create_ssd_mobilenet_v1_fpn_model_from_config(self):
+        model_text_proto = """
       ssd {
         freeze_batchnorm: true
         inplace_batchnorm_update: true
@@ -550,18 +548,18 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           }
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = self.create_model(model_proto)
-    self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
-    self.assertIsInstance(model._feature_extractor,
-                          SSDMobileNetV1FpnFeatureExtractor)
-    self.assertTrue(model._normalize_loc_loss_by_codesize)
-    self.assertTrue(model._freeze_batchnorm)
-    self.assertTrue(model._inplace_batchnorm_update)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = self.create_model(model_proto)
+        self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
+        self.assertIsInstance(model._feature_extractor,
+                              SSDMobileNetV1FpnFeatureExtractor)
+        self.assertTrue(model._normalize_loc_loss_by_codesize)
+        self.assertTrue(model._freeze_batchnorm)
+        self.assertTrue(model._inplace_batchnorm_update)
 
-  def test_create_ssd_mobilenet_v1_ppn_model_from_config(self):
-    model_text_proto = """
+    def test_create_ssd_mobilenet_v1_ppn_model_from_config(self):
+        model_text_proto = """
       ssd {
         freeze_batchnorm: true
         inplace_batchnorm_update: true
@@ -627,18 +625,18 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           }
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = self.create_model(model_proto)
-    self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
-    self.assertIsInstance(model._feature_extractor,
-                          SSDMobileNetV1PpnFeatureExtractor)
-    self.assertTrue(model._normalize_loc_loss_by_codesize)
-    self.assertTrue(model._freeze_batchnorm)
-    self.assertTrue(model._inplace_batchnorm_update)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = self.create_model(model_proto)
+        self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
+        self.assertIsInstance(model._feature_extractor,
+                              SSDMobileNetV1PpnFeatureExtractor)
+        self.assertTrue(model._normalize_loc_loss_by_codesize)
+        self.assertTrue(model._freeze_batchnorm)
+        self.assertTrue(model._inplace_batchnorm_update)
 
-  def test_create_ssd_mobilenet_v2_model_from_config(self):
-    model_text_proto = """
+    def test_create_ssd_mobilenet_v2_model_from_config(self):
+        model_text_proto = """
       ssd {
         feature_extractor {
           type: 'ssd_mobilenet_v2'
@@ -702,18 +700,18 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           }
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = self.create_model(model_proto)
-    self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
-    self.assertIsInstance(model._feature_extractor,
-                          SSDMobileNetV2FeatureExtractor)
-    self.assertIsInstance(model._box_predictor,
-                          convolutional_box_predictor.ConvolutionalBoxPredictor)
-    self.assertTrue(model._normalize_loc_loss_by_codesize)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = self.create_model(model_proto)
+        self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
+        self.assertIsInstance(model._feature_extractor,
+                              SSDMobileNetV2FeatureExtractor)
+        self.assertIsInstance(model._box_predictor,
+                              convolutional_box_predictor.ConvolutionalBoxPredictor)
+        self.assertTrue(model._normalize_loc_loss_by_codesize)
 
-  def test_create_ssd_mobilenet_v2_keras_model_from_config(self):
-    model_text_proto = """
+    def test_create_ssd_mobilenet_v2_keras_model_from_config(self):
+        model_text_proto = """
       ssd {
         feature_extractor {
           type: 'ssd_mobilenet_v2_keras'
@@ -777,19 +775,17 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           }
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = self.create_model(model_proto)
-    self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
-    self.assertIsInstance(model._feature_extractor,
-                          SSDMobileNetV2KerasFeatureExtractor)
-    self.assertIsInstance(
-        model._box_predictor,
-        convolutional_keras_box_predictor.ConvolutionalBoxPredictor)
-    self.assertTrue(model._normalize_loc_loss_by_codesize)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = self.create_model(model_proto)
+        self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
+        self.assertIsInstance(
+            model._box_predictor,
+            convolutional_keras_box_predictor.ConvolutionalBoxPredictor)
+        self.assertTrue(model._normalize_loc_loss_by_codesize)
 
-  def test_create_ssd_mobilenet_v2_fpn_model_from_config(self):
-    model_text_proto = """
+    def test_create_ssd_mobilenet_v2_fpn_model_from_config(self):
+        model_text_proto = """
       ssd {
         freeze_batchnorm: true
         inplace_batchnorm_update: true
@@ -859,18 +855,18 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           }
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = self.create_model(model_proto)
-    self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
-    self.assertIsInstance(model._feature_extractor,
-                          SSDMobileNetV2FpnFeatureExtractor)
-    self.assertTrue(model._normalize_loc_loss_by_codesize)
-    self.assertTrue(model._freeze_batchnorm)
-    self.assertTrue(model._inplace_batchnorm_update)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = self.create_model(model_proto)
+        self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
+        self.assertIsInstance(model._feature_extractor,
+                              SSDMobileNetV2FpnFeatureExtractor)
+        self.assertTrue(model._normalize_loc_loss_by_codesize)
+        self.assertTrue(model._freeze_batchnorm)
+        self.assertTrue(model._inplace_batchnorm_update)
 
-  def test_create_ssd_mobilenet_v2_fpnlite_model_from_config(self):
-    model_text_proto = """
+    def test_create_ssd_mobilenet_v2_fpnlite_model_from_config(self):
+        model_text_proto = """
       ssd {
         freeze_batchnorm: true
         inplace_batchnorm_update: true
@@ -942,18 +938,18 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           }
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = self.create_model(model_proto)
-    self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
-    self.assertIsInstance(model._feature_extractor,
-                          SSDMobileNetV2FpnFeatureExtractor)
-    self.assertTrue(model._normalize_loc_loss_by_codesize)
-    self.assertTrue(model._freeze_batchnorm)
-    self.assertTrue(model._inplace_batchnorm_update)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = self.create_model(model_proto)
+        self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
+        self.assertIsInstance(model._feature_extractor,
+                              SSDMobileNetV2FpnFeatureExtractor)
+        self.assertTrue(model._normalize_loc_loss_by_codesize)
+        self.assertTrue(model._freeze_batchnorm)
+        self.assertTrue(model._inplace_batchnorm_update)
 
-  def test_create_embedded_ssd_mobilenet_v1_model_from_config(self):
-    model_text_proto = """
+    def test_create_embedded_ssd_mobilenet_v1_model_from_config(self):
+        model_text_proto = """
       ssd {
         feature_extractor {
           type: 'embedded_ssd_mobilenet_v1'
@@ -1016,15 +1012,15 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           }
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = self.create_model(model_proto)
-    self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
-    self.assertIsInstance(model._feature_extractor,
-                          EmbeddedSSDMobileNetV1FeatureExtractor)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = self.create_model(model_proto)
+        self.assertIsInstance(model, ssd_meta_arch.SSDMetaArch)
+        self.assertIsInstance(model._feature_extractor,
+                              EmbeddedSSDMobileNetV1FeatureExtractor)
 
-  def test_create_faster_rcnn_resnet_v1_models_from_config(self):
-    model_text_proto = """
+    def test_create_faster_rcnn_resnet_v1_models_from_config(self):
+        model_text_proto = """
       faster_rcnn {
         inplace_batchnorm_update: false
         num_classes: 3
@@ -1083,22 +1079,23 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           score_converter: SOFTMAX
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
 
-    for extractor_type, extractor_class in FRCNN_RESNET_FEAT_MAPS.items():
-      model_proto.faster_rcnn.feature_extractor.type = extractor_type
-      model = model_builder.build(model_proto, is_training=True)
-      self.assertIsInstance(model, faster_rcnn_meta_arch.FasterRCNNMetaArch)
-      self.assertIsInstance(model._feature_extractor, extractor_class)
+        for extractor_type, extractor_class in FRCNN_RESNET_FEAT_MAPS.items():
+            model_proto.faster_rcnn.feature_extractor.type = extractor_type
+            model = model_builder.build(model_proto, is_training=True)
+            self.assertIsInstance(
+                model, faster_rcnn_meta_arch.FasterRCNNMetaArch)
+            self.assertIsInstance(model._feature_extractor, extractor_class)
 
-  @parameterized.parameters(
-      {'use_matmul_crop_and_resize': False},
-      {'use_matmul_crop_and_resize': True},
-  )
-  def test_create_faster_rcnn_resnet101_with_mask_prediction_enabled(
-      self, use_matmul_crop_and_resize):
-    model_text_proto = """
+    @parameterized.parameters(
+        {'use_matmul_crop_and_resize': False},
+        {'use_matmul_crop_and_resize': True},
+    )
+    def test_create_faster_rcnn_resnet101_with_mask_prediction_enabled(
+            self, use_matmul_crop_and_resize):
+        model_text_proto = """
       faster_rcnn {
         num_classes: 3
         image_resizer {
@@ -1168,15 +1165,15 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           score_converter: SOFTMAX
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model_proto.faster_rcnn.use_matmul_crop_and_resize = (
-        use_matmul_crop_and_resize)
-    model = model_builder.build(model_proto, is_training=True)
-    self.assertAlmostEqual(model._second_stage_mask_loss_weight, 3.0)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model_proto.faster_rcnn.use_matmul_crop_and_resize = (
+            use_matmul_crop_and_resize)
+        model = model_builder.build(model_proto, is_training=True)
+        self.assertAlmostEqual(model._second_stage_mask_loss_weight, 3.0)
 
-  def test_create_faster_rcnn_nas_model_from_config(self):
-    model_text_proto = """
+    def test_create_faster_rcnn_nas_model_from_config(self):
+        model_text_proto = """
       faster_rcnn {
         num_classes: 3
         image_resizer {
@@ -1234,16 +1231,16 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           score_converter: SOFTMAX
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = model_builder.build(model_proto, is_training=True)
-    self.assertIsInstance(model, faster_rcnn_meta_arch.FasterRCNNMetaArch)
-    self.assertIsInstance(
-        model._feature_extractor,
-        frcnn_nas.FasterRCNNNASFeatureExtractor)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = model_builder.build(model_proto, is_training=True)
+        self.assertIsInstance(model, faster_rcnn_meta_arch.FasterRCNNMetaArch)
+        self.assertIsInstance(
+            model._feature_extractor,
+            frcnn_nas.FasterRCNNNASFeatureExtractor)
 
-  def test_create_faster_rcnn_pnas_model_from_config(self):
-    model_text_proto = """
+    def test_create_faster_rcnn_pnas_model_from_config(self):
+        model_text_proto = """
       faster_rcnn {
         num_classes: 3
         image_resizer {
@@ -1301,16 +1298,16 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           score_converter: SOFTMAX
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = model_builder.build(model_proto, is_training=True)
-    self.assertIsInstance(model, faster_rcnn_meta_arch.FasterRCNNMetaArch)
-    self.assertIsInstance(
-        model._feature_extractor,
-        frcnn_pnas.FasterRCNNPNASFeatureExtractor)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = model_builder.build(model_proto, is_training=True)
+        self.assertIsInstance(model, faster_rcnn_meta_arch.FasterRCNNMetaArch)
+        self.assertIsInstance(
+            model._feature_extractor,
+            frcnn_pnas.FasterRCNNPNASFeatureExtractor)
 
-  def test_create_faster_rcnn_inception_resnet_v2_model_from_config(self):
-    model_text_proto = """
+    def test_create_faster_rcnn_inception_resnet_v2_model_from_config(self):
+        model_text_proto = """
       faster_rcnn {
         num_classes: 3
         image_resizer {
@@ -1368,16 +1365,16 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           score_converter: SOFTMAX
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = model_builder.build(model_proto, is_training=True)
-    self.assertIsInstance(model, faster_rcnn_meta_arch.FasterRCNNMetaArch)
-    self.assertIsInstance(
-        model._feature_extractor,
-        frcnn_inc_res.FasterRCNNInceptionResnetV2FeatureExtractor)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = model_builder.build(model_proto, is_training=True)
+        self.assertIsInstance(model, faster_rcnn_meta_arch.FasterRCNNMetaArch)
+        self.assertIsInstance(
+            model._feature_extractor,
+            frcnn_inc_res.FasterRCNNInceptionResnetV2FeatureExtractor)
 
-  def test_create_faster_rcnn_inception_v2_model_from_config(self):
-    model_text_proto = """
+    def test_create_faster_rcnn_inception_v2_model_from_config(self):
+        model_text_proto = """
       faster_rcnn {
         num_classes: 3
         image_resizer {
@@ -1435,15 +1432,15 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           score_converter: SOFTMAX
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = model_builder.build(model_proto, is_training=True)
-    self.assertIsInstance(model, faster_rcnn_meta_arch.FasterRCNNMetaArch)
-    self.assertIsInstance(model._feature_extractor,
-                          frcnn_inc_v2.FasterRCNNInceptionV2FeatureExtractor)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = model_builder.build(model_proto, is_training=True)
+        self.assertIsInstance(model, faster_rcnn_meta_arch.FasterRCNNMetaArch)
+        self.assertIsInstance(model._feature_extractor,
+                              frcnn_inc_v2.FasterRCNNInceptionV2FeatureExtractor)
 
-  def test_create_faster_rcnn_model_from_config_with_example_miner(self):
-    model_text_proto = """
+    def test_create_faster_rcnn_model_from_config_with_example_miner(self):
+        model_text_proto = """
       faster_rcnn {
         num_classes: 3
         feature_extractor {
@@ -1493,13 +1490,13 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           iou_threshold: 0.99
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    model = model_builder.build(model_proto, is_training=True)
-    self.assertIsNotNone(model._hard_example_miner)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        model = model_builder.build(model_proto, is_training=True)
+        self.assertIsNotNone(model._hard_example_miner)
 
-  def test_create_rfcn_resnet_v1_model_from_config(self):
-    model_text_proto = """
+    def test_create_rfcn_resnet_v1_model_from_config(self):
+        model_text_proto = """
       faster_rcnn {
         num_classes: 3
         image_resizer {
@@ -1557,14 +1554,14 @@ class ModelBuilderTest(tf.test.TestCase, parameterized.TestCase):
           score_converter: SOFTMAX
         }
       }"""
-    model_proto = model_pb2.DetectionModel()
-    text_format.Merge(model_text_proto, model_proto)
-    for extractor_type, extractor_class in FRCNN_RESNET_FEAT_MAPS.items():
-      model_proto.faster_rcnn.feature_extractor.type = extractor_type
-      model = model_builder.build(model_proto, is_training=True)
-      self.assertIsInstance(model, rfcn_meta_arch.RFCNMetaArch)
-      self.assertIsInstance(model._feature_extractor, extractor_class)
+        model_proto = model_pb2.DetectionModel()
+        text_format.Merge(model_text_proto, model_proto)
+        for extractor_type, extractor_class in FRCNN_RESNET_FEAT_MAPS.items():
+            model_proto.faster_rcnn.feature_extractor.type = extractor_type
+            model = model_builder.build(model_proto, is_training=True)
+            self.assertIsInstance(model, rfcn_meta_arch.RFCNMetaArch)
+            self.assertIsInstance(model._feature_extractor, extractor_class)
 
 
 if __name__ == '__main__':
-  tf.test.main()
+    tf.test.main()
